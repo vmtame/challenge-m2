@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\CityController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CityGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v1' ], function() {
   Route::apiResource('products', ProductController::class );
   Route::apiResource('cities', CityController::class );
+  Route::apiResource('cityGroups', CityGroupController::class );
 });

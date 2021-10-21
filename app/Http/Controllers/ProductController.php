@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\CreateRequest;
+use App\Http\Requests\Product\UpdateRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -14,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+      return ProductResource::collection(Product::paginate());
     }
 
     /**
@@ -23,9 +25,14 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        //
+      $product = new Product();
+      $product->product = $request->product;
+      $product->price = $request->price;
+      $product->save();
+
+      return new ProductResource($product);
     }
 
     /**
@@ -46,9 +53,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateRequest $request, Product $product)
     {
-        //
+      $product->product = $request->product;
+      $product->price = $request->price;
+      $product->save();
+
+      return new ProductResource($product);
     }
 
     /**
@@ -59,6 +70,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+      $product->delete();
+
+      return response()->noContent();
     }
 }
