@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CityResource extends JsonResource
+class CampaignResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,11 @@ class CityResource extends JsonResource
      */
     public function toArray($request)
     {
-      return [
-        "id" => $this->id,
-        "city" => $this->city,
-        "group" => new CityGroupResource($this->whenLoaded('group'))
-      ];
+        return [
+          'id' => $this->id,
+          'campaign' => $this->campaign,
+          'group' => new CityGroupResource($this->whenLoaded('group')),
+          'products' => ProductResource::collection($this->whenLoaded('products'))
+        ];
     }
 }

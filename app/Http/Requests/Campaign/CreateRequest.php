@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\City;
+namespace App\Http\Requests\Campaign;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,9 +23,14 @@ class CreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-          'city' => 'required|string|max:32',
-          'city_group_id' => 'sometimes|exists:city_groups:id'
-        ];
+      $size = count($this->products);
+
+      return [
+        'campaign' => 'required|string|max:128|unique:campaigns,campaign',
+        'products' => 'sometimes|array',
+        'products.*' => 'exists:products,id',
+        'discounts' => 'required_with:products|array|size:' . $size ,
+        'discounts.*' => 'numeric|gt:-1|lt:100'
+      ];
     }
 }

@@ -24,7 +24,9 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-          'group' => 'required|string|max:64'
+          'group' => 'required|string|max:64',
+          'cities' => 'sometimes|array',
+          'cities.*' => 'exists:cities,id'
         ];
     }
 }

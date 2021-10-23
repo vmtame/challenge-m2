@@ -14,6 +14,11 @@ class CityGroupResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+          'id' => $this->id,
+          'group' => $this->group,
+          'cities' => CityResource::collection($this->whenLoaded( "cities" )),
+          'campaign' => new CampaignResource($this->whenLoaded('campaign'))
+        ];
     }
 }

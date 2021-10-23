@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\City;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-          'city' => 'required|string|max:32',
-          'city_group_id' => 'sometimes|exists:city_groups:id'
+          'email' => 'required|exists:users',
+          'password' => 'required|string|max:255'
         ];
     }
 }

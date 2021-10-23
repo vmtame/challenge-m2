@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitiesTable extends Migration
+class CreateCityGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('city_groups', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('city_group_id')->unsigned()->nullable();
-            $table->string('city', 32);
+            $table->bigInteger('campaign_id')->unique()->unsigned()->nullable();
+            $table->string('group', 64)->unique();
             $table->timestamps();
 
-            $table->foreign('city_group_id')->references('id')->on('city_groups')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('SET NULL')->onUpdate('CASCADE');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('city_groups');
     }
 }

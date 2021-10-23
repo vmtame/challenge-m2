@@ -14,6 +14,14 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+      // return parent::toArray($request);
+      return [
+        'id' => $this->id,
+        'product' => $this->product,
+        'price' => $this->price,
+        'discount' => $this->whenPivotLoaded('campaign_product', function(){
+          return $this->pivot->discount;
+        })
+      ];
     }
 }

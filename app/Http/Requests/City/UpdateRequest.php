@@ -24,7 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-          'city' => 'required|string|max:32'
+          'city' => 'required|string|max:32',
+          'city_group_id' => 'sometimes|exists:city_groups:id'
         ];
     }
 }

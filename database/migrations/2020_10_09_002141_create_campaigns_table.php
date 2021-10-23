@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCityGroupsTable extends Migration
+class CreateCampaignsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateCityGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('city_groups', function (Blueprint $table) {
+        Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
-            $table->string('group', 64)->unique();
+            $table->string('campaign', 128)->unique();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateCityGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_groups');
+        Schema::dropIfExists('campaigns');
     }
 }

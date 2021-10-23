@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CityGroup\CreateRequest;
-use App\Http\Requests\CityGroup\UpdateRequest;
-use App\Http\Resources\CityGroupResource;
+use App\Models\City;
 use App\Models\CityGroup;
 use Illuminate\Http\Request;
+use App\Http\Resources\CityGroupResource;
+use App\Http\Requests\CityGroup\CreateRequest;
+use App\Http\Requests\CityGroup\UpdateRequest;
 
 class CityGroupController extends Controller
 {
@@ -31,8 +32,12 @@ class CityGroupController extends Controller
       $cityGroup = new CityGroup();
       $cityGroup->group = $request->group;
       $cityGroup->save();
+      
+      if( count($request->cities) ) {
+        $cityGroup->cities()->saveMany(City::whereIn('id', $request->cities)->get());
+      }
 
-      return new CityGroupResource($cityGroup);
+      return new CityGroupResource($cityGroup->load('cities'));
     }
 
     /**
@@ -43,7 +48,7 @@ class CityGroupController extends Controller
      */
     public function show(CityGroup $cityGroup)
     {
-        //
+      return new CityGroupResource($cityGroup->load(['cities','campaign']));
     }
 
     /**
@@ -58,7 +63,10 @@ class CityGroupController extends Controller
       $cityGroup->group = $request->group;
       $cityGroup->save();
 
-      return new CityGroupResource($cityGroup);
+      if( count($request->cities) ) {
+        $cityGroup->cities()->saveMany(City::whereIn('id', $request->cities)->get());
+      }
+      return new CityGroupResource($cityGroup->load('cities'));
     }
 
     /**
